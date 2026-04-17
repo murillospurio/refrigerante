@@ -861,8 +861,13 @@ async function confirmarComForma(forma) {
   const tela = document.getElementById("telaStatus");
   const texto = document.getElementById("textoStatus");
 
-  document.getElementById("opcaoNota").style.display = "none";
-  document.getElementById("telaTelefone").style.display = "none";
+  // 🔥 CORREÇÃO (não quebra se não existir)
+  const opcaoNota = document.getElementById("opcaoNota");
+  const telaTelefone = document.getElementById("telaTelefone");
+
+  if(opcaoNota) opcaoNota.style.display = "none";
+  if(telaTelefone) telaTelefone.style.display = "none";
+
   texto.style.display = "block";
   texto.innerHTML = "";
 
