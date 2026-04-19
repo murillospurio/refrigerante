@@ -1165,7 +1165,15 @@ async function aguardarEntrega(orderId){
         setTimeout(()=>{
 
           emPagamento = false;
+
           zerarCarrinhoTotal();
+
+          const telaStatus = document.getElementById("telaStatus");
+
+          if(telaStatus){
+            telaStatus.style.display = "none";
+          }
+
           entrarTelaRepouso();
 
         },5000);
