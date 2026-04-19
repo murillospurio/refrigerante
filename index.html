@@ -1044,12 +1044,7 @@ async function aguardarPagamento(orderId){
         }, 4000);
       }
 
-      if(data.status === "pago" && !finalizado && emPagamento){
-
-        if(Date.now() - inicio < 2000){
-          console.log("Ignorando pago muito rápido");
-          return;
-        }
+      if(data.status === "pago" && !finalizado){
 
         pagamentoConfirmado = true;
 
@@ -1072,10 +1067,11 @@ async function aguardarPagamento(orderId){
         tela.style.display = "flex";
 
         // 🔥 garante reset da tela
-        document.getElementById("opcaoNota").style.display = "none";
-        document.getElementById("telaTelefone").style.display = "none";
+        const opcaoNota = document.getElementById("opcaoNota");
+        const telaTelefone = document.getElementById("telaTelefone");
 
-        texto.style.display = "block";
+        if(opcaoNota) opcaoNota.style.display = "none";
+        if(telaTelefone) telaTelefone.style.display = "none";
 
         // ==========================
         // 🔥 ANIMAÇÃO TIPO MÁQUINA
