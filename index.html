@@ -860,18 +860,52 @@ async function confirmarComForma(forma) {
       tela.style.display = "flex";
 
       texto.innerHTML = `
-        <div style="font-size:50px;margin-bottom:20px">
-          Erro ao enviar pedido
-        </div>
+  <div style="font-size:60px;margin-bottom:30px;color:#ff4d4d">
+    ⚠️ Erro ao enviar pedido!
+  </div>
 
-        <div style="font-size:40px;margin-bottom:30px;color:#ccc">
-          Cancele a cobrança pendente pressionando ← na maquininha
-        </div>
+  <div style="font-size:40px;margin-bottom:25px;color:#ccc">
+    Cancele a cobrança pendente pressionando o 
+    <span style="
+      display:inline-block;
+      background:#28a745;
+      color:white;
+      padding:10px 25px;
+      border-radius:12px;
+      font-weight:bold;
+      margin:0 10px;
+    ">
+      Confirmar
+    </span>
+  </div>
 
-        <div style="position:relative;display:inline-block">
-          <img src="maquininha.png" style="width:300px;border-radius:20px">
-        </div>
-      `;
+  <div style="font-size:40px;margin-bottom:40px;color:#ccc">
+    e logo após o 
+    <span style="
+      display:inline-block;
+      background:#dc3545;
+      color:white;
+      padding:10px 25px;
+      border-radius:12px;
+      font-weight:bold;
+      margin:0 10px;
+    ">
+      Cancelar
+    </span>
+  </div>
+
+  <button onclick="fecharTelaErro()" style="
+    font-size:40px;
+    padding:20px 80px;
+    border-radius:15px;
+    border:none;
+    background:#007bff;
+    color:white;
+    cursor:pointer;
+  ">
+    OK
+  </button>
+`;
       enviandoPedido = false;
       emPagamento = false;// 🔥 IMPORTANTE
 
@@ -975,6 +1009,11 @@ produtosDiv.addEventListener('scroll', () => {
 
 window.addEventListener('resize', destacarCentral);
 setTimeout(destacarCentral, 400);
+
+function fecharTelaErro(){
+  document.getElementById("telaStatus").style.display = "none";
+  entrarTelaRepouso();
+}
 
 function fecharOverlayTotal() {
   const overlay = document.getElementById("overlay");
