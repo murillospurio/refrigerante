@@ -945,14 +945,24 @@ async function confirmarComForma(forma) {
     tela.style.display = "flex";
     document.getElementById("btnCancelar").style.display = "block";
     texto.innerHTML = `
-      <div class="cartaoAnimado">💳</div>
-      <div style="font-size:50px;margin-top:20px">
-        Aproxime ou insira o cartão na maquininha
-      </div>
-      <div style="font-size:40px;margin-top:15px;color:#ccc">
-        Aguardando pagamento...
-      </div>
-    `;
+  <div style="font-size:50px;margin-bottom:30px">
+    Pressione o botão verde da maquininha
+  </div>
+
+  <img src="maquininha.png" style="
+    width:300px;
+    border-radius:20px;
+    margin-bottom:30px;
+  ">
+
+  <div style="font-size:50px;margin-top:10px">
+    Insira ou aproxime o cartão
+  </div>
+
+  <div style="font-size:40px;margin-top:15px;color:#ccc">
+    Aguardando pagamento...
+  </div>
+`;
 
     setTimeout(() => {
       aguardarPagamento(payload.order_id);
