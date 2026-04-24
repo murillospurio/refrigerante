@@ -777,6 +777,11 @@ async function confirmarComForma(forma) {
     timeoutEntrega = null;
   }
 
+  if (ultimoPedido && !pedidoFinalizado) {
+    alert("Já existe um pedido em andamento!");
+    return;
+  }
+
   if (enviandoPedido) return; // 🔥 trava duplicação
 
   enviandoPedido = true;
@@ -830,8 +835,6 @@ async function confirmarComForma(forma) {
     forma_pagamento: forma,
   };
 
-  ultimoPedido = payload.order_id;
-
   const tela = document.getElementById("telaStatus");
   const texto = document.getElementById("textoStatus");
 
@@ -856,6 +859,7 @@ async function confirmarComForma(forma) {
     const data = await resp.json();
 
     if (!resp.ok) {
+      ultimoPedido = null; 
       fecharOverlay();
       tela.style.display = "flex";
 
@@ -941,6 +945,8 @@ async function confirmarComForma(forma) {
     ========================= */
 
     fecharOverlay();
+
+    ultimoPedido = payload.order_id;
     
     tela.style.display = "flex";
     document.getElementById("btnCancelar").style.display = "block";
@@ -975,6 +981,8 @@ async function confirmarComForma(forma) {
     alert("Falha de conexão. Abra o terminal clicando no botão verde e cancele a operação.");
 
     fecharOverlay();
+
+    ultimoPedido = null;
 
     emPagamento = false;
 
@@ -1145,6 +1153,11 @@ async function aguardarPagamento(orderId){
       }
     }catch(e){
       console.log("erro ao verificar pagamento...");
+
+      clearInterval(intervalPagamento);
+      intervalPagamento = null;
+
+      emPagamento = false;
     }
 
   },2000);
