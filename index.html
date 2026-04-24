@@ -1153,11 +1153,6 @@ async function aguardarPagamento(orderId){
       }
     }catch(e){
       console.log("erro ao verificar pagamento...");
-
-      clearInterval(intervalPagamento);
-      intervalPagamento = null;
-
-      emPagamento = false;
     }
 
   },2000);
