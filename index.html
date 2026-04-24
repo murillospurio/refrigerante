@@ -915,6 +915,8 @@ async function confirmarComForma(forma) {
 
     if (forma === "pix" && data.qr_base64) {
 
+      ultimoPedido = payload.order_id; 
+
   overlayItens.innerHTML = '';
 
   overlayItens.innerHTML = `
