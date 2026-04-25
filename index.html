@@ -860,6 +860,10 @@ async function confirmarComForma(forma) {
 
     if (!resp.ok) {
       ultimoPedido = null; 
+      pedidoFinalizado = true;
+      emPagamento = false;
+      pagamentoConfirmado = false;
+      
       fecharOverlay();
       tela.style.display = "flex";
 
@@ -1193,6 +1197,9 @@ async function aguardarEntrega(orderId){
       ){
 
         pedidoFinalizado = true;
+        emPagamento = false;
+        ultimoPedido = null;
+        pagamentoConfirmado = false;
 
         clearInterval(intervalEntrega);
         intervalEntrega = null;
@@ -1208,6 +1215,9 @@ async function aguardarEntrega(orderId){
         setTimeout(()=>{
 
           emPagamento = false;
+          pedidoFinalizado = true;
+          pagamentoConfirmado = false;
+          ultimoPedido = null;
 
           zerarCarrinhoTotal();
 
