@@ -1399,6 +1399,11 @@ function iniciarTimerInatividade() {
 
 window.addEventListener("DOMContentLoaded", () => {
   const tela = document.getElementById("telaRepouso");
+
+  document.body.addEventListener("click", () => {
+    speechSynthesis.resume();
+  }, { once: true });
+  
   tela.addEventListener("click", sairTelaRepouso);
   entrarTelaRepouso(); // inicia em modo repouso
   iniciarTimerInatividade(); // só entra em repouso após 1 minuto sem interação
