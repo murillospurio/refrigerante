@@ -1357,8 +1357,6 @@ function sairTelaRepouso() {
 }
 
 function falar(texto) {
-  speechSynthesis.cancel(); // 🔥 garante limpar fila
-
   const msg = new SpeechSynthesisUtterance(texto);
   msg.lang = "pt-BR";
   msg.rate = 1;
@@ -1368,7 +1366,6 @@ function falar(texto) {
 }
 
 function falarStatus(status) {
-  speechSynthesis.cancel();
 
   switch (status) {
     case "qrcode":
