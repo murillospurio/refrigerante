@@ -780,6 +780,8 @@ function fecharTelaFinal(){
 /* === confirmar pedido === */
 async function confirmarComForma(forma) {
 
+  falar("Iniciando pagamento");
+
   // 🔥 RESET TOTAL DO ESTADO
   cancelado = false;
   pedidoFinalizado = false;
@@ -940,17 +942,19 @@ async function confirmarComForma(forma) {
     ========================= */
 
     if (forma === "pix" && data.qr_base64) {
+      emPagamento = true;
 
       ultimoPedido = payload.order_id; 
 
   overlayItens.innerHTML = '';
+
+  falarStatus("qrcode");
 
   overlayItens.innerHTML = `
     <p>Escaneie o QR Code abaixo para pagar:</p>
     <img src="data:image/png;base64,${data.qr_base64}" 
          style="width:400px;height:400px;">
   `;
-  falarStatus("qrcode");
 
   document.getElementById("pagamentoOpcoes").style.display = "none";
   overlay.style.display = "flex";
@@ -1401,9 +1405,11 @@ window.addEventListener("DOMContentLoaded", () => {
   const tela = document.getElementById("telaRepouso");
 
   document.body.addEventListener("click", () => {
-    speechSynthesis.resume();
+    const msg = new SpeechSynthesisUtterance(" ");
+    msg.lang = "pt-BR";
+    speechSynthesis.speak(msg);
   }, { once: true });
-  
+
   tela.addEventListener("click", sairTelaRepouso);
   entrarTelaRepouso(); // inicia em modo repouso
   iniciarTimerInatividade(); // só entra em repouso após 1 minuto sem interação
