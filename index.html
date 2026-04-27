@@ -387,27 +387,53 @@ color:white;
     z-index:10001;
   ">
 
-  <h2 style="font-size:60px;">⚠️ Cancelar operação</h2>
+  <div style="font-size:65px;margin-bottom:30px;color:#ff4d4d">
+    ⚠️ Atenção!
+  </div>
 
-<div style="margin:30px;text-align:center;">
+  <div style="font-size:42px;margin-bottom:25px;color:#fff">
+    Existe uma cobrança aberta na maquininha
+  </div>
 
-  <p style="font-size:45px;margin-bottom:30px;">
-    Pressione na maquininha
-  </p>
+  <div style="font-size:38px;margin-bottom:40px;color:#ccc">
+    Para cancelar o pedido corretamente, finalize o cancelamento na maquininha:
+  </div>
 
+  <div style="font-size:38px;margin-bottom:25px;color:#ccc">
+    Pressione o botão 
+    <span style="
+      display:inline-block;
+      background:#28a745;
+      color:white;
+      padding:10px 25px;
+      border-radius:12px;
+      font-weight:bold;
+      margin:0 10px;
+    ">
+      Confirmar
+    </span>
+  </div>
+  
   <img src="maquininha.png" style="
-    width:250px;
-    margin-bottom:30px;
+    width:280px;
+    margin-bottom:40px;
     border-radius:20px;
   ">
 
-  <p style="font-size:40px;color:#ccc;">
-    para cancelar o pedido
-  </p>
-
-</div>
-
-  <div style="display:flex;justify-content:center;margin-top:30px;">
+  <div style="font-size:38px;margin-bottom:40px;color:#ccc">
+    e depois o botão 
+    <span style="
+      display:inline-block;
+      background:#dc3545;
+      color:white;
+      padding:10px 25px;
+      border-radius:12px;
+      font-weight:bold;
+      margin:0 10px;
+    ">
+      Cancelar
+    </span>
+  </div>
 
     <button onclick="confirmarCancelamento()" style="
       font-size:40px;
@@ -873,7 +899,7 @@ async function confirmarComForma(forma) {
   </div>
 
   <div style="font-size:40px;margin-bottom:25px;color:#ccc">
-    Cancele a cobrança pendente pressionando o 
+    Cancele a cobrança pendente na maquininha de cartao pressionando o 
     <span style="
       display:inline-block;
       background:#28a745;
@@ -900,7 +926,6 @@ async function confirmarComForma(forma) {
     ">
       Cancelar
     </span>
-    na maquininha de cartão!
   </div>
 `;
       enviandoPedido = false;
