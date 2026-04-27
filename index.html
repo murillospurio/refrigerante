@@ -948,8 +948,6 @@ async function confirmarComForma(forma) {
 
   overlayItens.innerHTML = '';
 
-  falarStatus("qrcode");
-
   overlayItens.innerHTML = `
     <p>Escaneie o QR Code abaixo para pagar:</p>
     <img src="data:image/png;base64,${data.qr_base64}" 
@@ -960,6 +958,10 @@ async function confirmarComForma(forma) {
   overlay.style.display = "flex";
   overlay.style.pointerEvents = "all";
   overlay.classList.add('show');
+
+  setTimeout(() => {
+    falarStatus("qrcode");
+  }, 500);
 
   // 🔥 AGORA FICA MONITORANDO IGUAL CARTÃO
   aguardarPagamento(payload.order_id);
