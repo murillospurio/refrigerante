@@ -597,6 +597,7 @@ function alterarQuantidade(id, delta) {
 
 function abrirCancelamento(){
   document.getElementById("telaCancelamento").style.display = "flex";
+  falarStatus("cancelamento");
 }
 
 async function fecharCancelamento(){
@@ -949,6 +950,7 @@ async function confirmarComForma(forma) {
     <img src="data:image/png;base64,${data.qr_base64}" 
          style="width:400px;height:400px;">
   `;
+  falarStatus("qrcode");
 
   document.getElementById("pagamentoOpcoes").style.display = "none";
   overlay.style.display = "flex";
@@ -996,6 +998,8 @@ async function confirmarComForma(forma) {
     Aguardando pagamento...
   </div>
 `;
+
+falarStatus("cartao");
 
     setTimeout(() => {
       aguardarPagamento(payload.order_id);
@@ -1157,6 +1161,8 @@ async function aguardarPagamento(orderId){
         if(cancelado) return;
         if(orderId !== ultimoPedido) return;
 
+        falarStatus("aprovado");
+
         texto.innerHTML = `
           <div style="font-size:100px;color:#28a745">✔</div>
           <div style="font-size:50px;margin-top:20px">
@@ -1215,7 +1221,10 @@ async function aguardarEntrega(orderId){
         orderId === ultimoPedido &&
         pagamentoConfirmado === true &&
         pedidoFinalizado === false
+        
       ){
+
+        falarStatus("entregue");
 
         pedidoFinalizado = true;
         emPagamento = false;
@@ -1343,6 +1352,42 @@ function sairTelaRepouso() {
   iniciarTimerInatividade();
 }
 
+function falar(texto) {
+  speechSynthesis.cancel(); // 🔥 garante limpar fila
+
+  const msg = new SpeechSynthesisUtterance(texto);
+  msg.lang = "pt-BR";
+  msg.rate = 1;
+  msg.pitch = 1;
+
+  speechSynthesis.speak(msg);
+}
+
+function falarStatus(status) {
+  speechSynthesis.cancel();
+
+  switch (status) {
+    case "qrcode":
+      falar("Leia o QR Code na tela para efetuar o pagamento");
+      break;
+
+    case "cartao":
+      falar("Pressione o botão verde da maquininha. Insira ou aproxime o cartão");
+      break;
+
+    case "aprovado":
+      falar("Pagamento aprovado. Liberando produto");
+      break;
+
+    case "entregue":
+      falar("Produto entregue. Obrigado pela preferência");
+      break;
+
+    case "cancelamento":
+      falar("Para cancelar o pedido, pressione o botão verde da maquininha e depois o botão vermelho");
+      break;
+  }
+}
 
 function iniciarTimerInatividade() {
   clearTimeout(timerInatividade);
