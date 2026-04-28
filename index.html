@@ -1356,33 +1356,60 @@ function sairTelaRepouso() {
   iniciarTimerInatividade();
 }
 
+function acordarAudio() {
+  const audio = new Audio("silencio.mp3"); // silêncio curtinho
+  audio.volume = 0;
+  audio.play().catch(()=>{});
+}
+
+const audios = {
+  qrcode: new Audio("qrcode.mp3"),
+  cartao: new Audio("cartao.mp3"),
+  aprovado: new Audio("aprovado.mp3"),
+  entregue: new Audio("entregue.mp3"),
+  cancelamento: new Audio("cancelamento.mp3")
+};
+
+Object.values(audios).forEach(audio => {
+  audio.preload = "auto";
+  audio.load(); // 🔥 força carregar antes
+}); 
+
 function tocarAudio(arquivo) {
-  const audio = new Audio(arquivo);
-  audio.volume = 1.0;
-  audio.play();
+
+  acordarAudio();
+
+  const audio = audios[arquivo];
+  if (!audio) return;
+
+  audio.currentTime = 0;
+
+  setTimeout(() => {
+    audio.play().catch(()=>{});
+  }, 120); // 🔥 pequeno delay garante wake
 }
 
 function falarStatus(status) {
 
   switch (status) {
     case "qrcode":
-      tocarAudio("qrcode.mp3");
+      tocarAudio("qrcode");
       break;
 
     case "cartao":
-      tocarAudio("cartao.mp3");
+      tocarAudio("cartao");
       break;
 
     case "aprovado":
-      tocarAudio("aprovado.mp3");
+      tocarAudio("aprovado");
       break;
 
     case "entregue":
-      tocarAudio("entregue.mp3");
+      tocarAudio("entregue");
       break;
 
     case "cancelamento":
-      tocarAudio("cancelamento.mp3");
+      tocarAudio("cancelamento");
       break;
   }
 }
@@ -1398,17 +1425,17 @@ function iniciarTimerInatividade() {
 window.addEventListener("DOMContentLoaded", () => {
   const tela = document.getElementById("telaRepouso");
 
-  document.body.addEventListener("click", () => {
-    const msg = new SpeechSynthesisUtterance(" ");
-    msg.lang = "pt-BR";
-    speechSynthesis.speak(msg);
-  }, { once: true });
-
   tela.addEventListener("click", sairTelaRepouso);
   entrarTelaRepouso(); // inicia em modo repouso
   iniciarTimerInatividade(); // só entra em repouso após 1 minuto sem interação
   carregarProdutos();
 });
+
+setInterval(() => {
+  if (!emPagamento) {
+    acordarAudio();
+  }
+}, 15000);
 
 document.body.addEventListener("click", iniciarTimerInatividade);
 
