@@ -1335,6 +1335,8 @@ function moverCarrossel(qtd) {
 }
 
 function sairTelaRepouso() {
+  acordarAudio(); 
+  
   const tela = document.getElementById("telaRepouso");
   const produtosDiv = document.getElementById("produtos");
   tela.classList.remove("ativo");
@@ -1354,12 +1356,6 @@ function sairTelaRepouso() {
   }, 400);
 
   iniciarTimerInatividade();
-}
-
-function acordarAudio() {
-  const audio = new Audio("silencio.mp3"); // silêncio curtinho
-  audio.volume = 0;
-  audio.play().catch(()=>{});
 }
 
 const audios = {
@@ -1422,6 +1418,30 @@ function iniciarTimerInatividade() {
   timerInatividade = setTimeout(entrarTelaRepouso, 120000);
 }
 
+let audioCtx = null;
+
+function acordarAudio() {
+
+  if (!audioCtx) {
+    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  }
+
+  if (audioCtx.state === "suspended") {
+    audioCtx.resume();
+  }
+
+  const osc = audioCtx.createOscillator();
+  const gain = audioCtx.createGain();
+
+  gain.gain.value = 0;
+
+  osc.connect(gain);
+  gain.connect(audioCtx.destination);
+
+  osc.start();
+  osc.stop(audioCtx.currentTime + 0.01);
+}
+
 window.addEventListener("DOMContentLoaded", () => {
   const tela = document.getElementById("telaRepouso");
 
@@ -1430,12 +1450,6 @@ window.addEventListener("DOMContentLoaded", () => {
   iniciarTimerInatividade(); // só entra em repouso após 1 minuto sem interação
   carregarProdutos();
 });
-
-setInterval(() => {
-  if (!emPagamento) {
-    acordarAudio();
-  }
-}, 15000);
 
 document.body.addEventListener("click", iniciarTimerInatividade);
 
