@@ -467,6 +467,7 @@ let intervalPagamento = null;
 let timeoutEntrega = null;
 let pedidoFinalizado = false;
 let pagamentoConfirmado = false;
+let audioEntregaTocado = false;
 
 /* === carregar produtos === */
 async function carregarProdutos() {
@@ -784,6 +785,7 @@ async function confirmarComForma(forma) {
   cancelado = false;
   pedidoFinalizado = false;
   pagamentoConfirmado = false;
+  audioEntregaTocado = false;
 
   if(intervalPagamento){
     clearInterval(intervalPagamento);
@@ -1220,15 +1222,21 @@ async function aguardarEntrega(orderId){
         return; // 🔥 ignora resposta antiga
       }
 
-      if(
-        data.status === "entregue" &&
+      if (data.status === "entregue") {
+
+  // 🔊 toca SEM depender de outras condições
+      if (!audioEntregaTocado) {
+        audioEntregaTocado = true;
+        console.log("🔊 TOCANDO AUDIO ENTREGA");
+        falarStatus("entregue");
+      }
+
+  // 🔒 agora valida e finaliza o fluxo
+      if (
         orderId === ultimoPedido &&
         pagamentoConfirmado === true &&
         pedidoFinalizado === false
-        
-      ){
-
-        falarStatus("entregue");
+      ) {
 
         pedidoFinalizado = true;
         emPagamento = false;
