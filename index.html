@@ -853,12 +853,29 @@ async function confirmarComForma(forma) {
     return;
   }
 
+  const agora = new Date();
+
+  const dataHoraBrasil = agora.toLocaleString(
+    "sv-SE",
+    {
+      timeZone: "America/Sao_Paulo"
+    }
+  ).replace(" ", " ");
+
   const payload = {
+
     order_id: "PED-" + Date.now(),
+
     total: Number(total.toFixed(2)),
+
     items: items,
+
     forma_pagamento: forma,
+
+    data_hora: dataHoraBrasil
   };
+
+  ultimoPedido = payload.order_id;
 
   const tela = document.getElementById("telaStatus");
   const texto = document.getElementById("textoStatus");
